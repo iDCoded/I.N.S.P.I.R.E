@@ -131,7 +131,12 @@ export default function ExistingPolls() {
 								<TableBody>
 									{polls.map((poll) => (
 										<TableRow key={poll._id}>
-											<TableCell>{poll.name}</TableCell>
+											<TableCell>
+												{poll.name}
+												<div className="text-xs text-muted-foreground">
+													{poll.date ? format(poll.date, "PP") : Date.now()}
+												</div>
+											</TableCell>
 											<TableCell>{poll.timings.join(", ")}</TableCell>
 
 											<TableCell>

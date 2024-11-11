@@ -92,6 +92,7 @@ export default function CreateNewPoll() {
 					<div>
 						<Label htmlFor="pollName">Poll Name</Label>
 						<Input
+							autoComplete="off"
 							id="pollName"
 							value={newPoll.name}
 							onChange={(e) => setNewPoll({ ...newPoll, name: e.target.value })}
