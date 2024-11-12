@@ -1,7 +1,7 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 interface IPoll extends Document {
-	_id: number;
+	_id: Types.ObjectId;
 	name: string;
 	timings: string[];
 	status: "pending" | "active" | "ended";
