@@ -34,7 +34,13 @@ export async function GET() {
 
 	try {
 		const polls = await Poll.find();
-		return NextResponse.json({ success: true, polls: polls });
+		const activePolls = await Poll.find({ status: "active" }).sort({ date: 1 });
+
+		return NextResponse.json({
+			success: true,
+			polls,
+			activePolls,
+		});
 	} catch (error) {
 		return NextResponse.json(
 			{ success: false, message: "Error fetching polls" },
