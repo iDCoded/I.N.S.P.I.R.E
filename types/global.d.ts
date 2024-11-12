@@ -8,13 +8,13 @@ interface IPoll extends Document {
 	tickets: Ticket[];
 	votes: { [key: string]: number };
 	date: Date | undefined;
-	createdAt: Date;
+	createdAt?: Date;
 }
 
 interface Ticket {
 	timing: string;
 	ticketId: string;
-	createdAt: Date;
+	createdAt?: Date;
 }
 
 interface BusScheduleContextType {
