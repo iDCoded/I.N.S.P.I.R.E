@@ -3,13 +3,16 @@ interface Poll {
 	name: string;
 	timings: string[];
 	status: "pending" | "active" | "ended";
+	tickets: Ticket[];
 	votes: { [key: string]: number };
 	date: Date | undefined;
+	createdAt: Date;
 }
 
 interface Ticket {
-	time: string;
+	timing: string;
 	ticketId: string;
+	createdAt: Date;
 }
 
 interface BusScheduleContextType {
