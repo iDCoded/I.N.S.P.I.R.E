@@ -63,7 +63,7 @@ export default function Vote() {
 					className="w-full"
 					onClick={generateTicket}
 					disabled={!selectedTime}>
-					Generate Ticket
+					Generate Ticket {selectedTime ? `for ${selectedTime}` : null}
 				</Button>
 			</CardFooter>
 		</Card>
