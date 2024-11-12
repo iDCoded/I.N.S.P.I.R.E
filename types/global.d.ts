@@ -1,4 +1,6 @@
-interface Poll {
+import { Document } from "mongoose";
+
+interface IPoll extends Document {
 	_id: number;
 	name: string;
 	timings: string[];
