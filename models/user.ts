@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { model, models, Schema } from "mongoose";
 
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
 	btid: String,
 	name: String,
 	email: String,
@@ -13,4 +13,4 @@ const userSchema = mongoose.Schema({
 	provider: { type: String, default: "local" }, // Track whether the user is logged in with Google or credentials.
 });
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = models.User || model("User", userSchema);
