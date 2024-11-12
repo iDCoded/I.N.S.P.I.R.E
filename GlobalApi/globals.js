@@ -1,4 +1,4 @@
-import Poll from '@/models/poll';
+import Poll from '@/models/Poll';
 import User from '@/models/user';
 import axios from 'axios';
 
