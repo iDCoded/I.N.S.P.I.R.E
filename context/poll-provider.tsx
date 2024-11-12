@@ -1,5 +1,6 @@
 "use client";
 
+import { BusScheduleContextType, Ticket } from "@/types/global";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 const BusScheduleContext = createContext<BusScheduleContextType | undefined>(
@@ -10,13 +11,30 @@ export const BusScheduleProvider = ({ children }: { children: ReactNode }) => {
 	const [selectedTime, setSelectedTime] = useState("");
 	const [ticket, setTicket] = useState<Ticket | null>(null);
 
-	const generateTicket = () => {
-		if (selectedTime) {
-			const ticketId = Math.random()
-				.toString(36)
-				.substring(5, 10)
-				.toUpperCase();
-			setTicket({ timing: selectedTime, ticketId, createdAt: new Date() });
+	const generateTicket = async () => {
+		if (!selectedTime) return;
+		const ticketId = Math.random().toString(36).substring(5, 10).toUpperCase();
+		setTicket({ timing: selectedTime, ticketId });
+
+		try {
+			const res = await fetch("/api/polls/ticket", {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ timing: selectedTime, ticketId }),
+			});
+
+			if (!res.ok) {
+				const { error } = await res.json();
+				console.error("Failed to generate ticket", error);
+				return;
+			}
+
+			const data = await res.json();
+			console.log("Ticket generated successfully", data.ticket.ticketId);
+		} catch (error) {
+			console.log("Error generating ticket.", error);
 		}
 	};
 
