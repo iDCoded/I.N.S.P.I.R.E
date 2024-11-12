@@ -16,7 +16,7 @@ export const BusScheduleProvider = ({ children }: { children: ReactNode }) => {
 				.toString(36)
 				.substring(5, 10)
 				.toUpperCase();
-			setTicket({ time: selectedTime, ticketId });
+			setTicket({ timing: selectedTime, ticketId, createdAt: new Date() });
 		}
 	};
 

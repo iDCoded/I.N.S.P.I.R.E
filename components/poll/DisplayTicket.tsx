@@ -23,7 +23,7 @@ export default function DisplayTicket() {
 			<CardContent className="grid gap-4">
 				<div className="rounded-lg border p-4">
 					<div className="font-semibold">Departure Time</div>
-					<div className="text-2xl">{ticket.time}</div>
+					<div className="text-2xl">{ticket.timing}</div>
 					<div className="mt-4 font-semibold">Ticket ID</div>
 					<div className="font-mono text-sm">{ticket.ticketId}</div>
 				</div>
