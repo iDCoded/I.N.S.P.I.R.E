@@ -18,18 +18,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Calendar } from "@/components/ui/calendar";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-	Clock,
-	Trash2,
-	Calendar as CalendarIcon,
-	RefreshCcw,
-} from "lucide-react";
+import { Clock, Trash2, RefreshCcw } from "lucide-react";
 import { format } from "date-fns";
 import { useEffect } from "react";
 
