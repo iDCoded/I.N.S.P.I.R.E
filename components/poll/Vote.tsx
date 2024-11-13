@@ -21,6 +21,10 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 export default function Vote() {
 	const { selectedTime, setSelectedTime, generateTicket } = useBusSchedule();
 	const [busTimings, setBusTimings] = useState<string[]>([]);
+	const [existingTicket, setExistingTicket] = useState<{
+		ticketId: string;
+		timing: string;
+	} | null>(null);
 
 	const fetchBusTimings = async () => {
 		try {
@@ -39,8 +43,17 @@ export default function Vote() {
 	};
 
 	useEffect(() => {
-		fetchBusTimings();
+		const storedTicket = localStorage.getItem("userTicket");
+		if (storedTicket) {
+			console.log("Stored Ticket", JSON.parse(storedTicket));
+			setExistingTicket(JSON.parse(storedTicket));
+		} else {
+			fetchBusTimings();
+		}
 	}, []);
+
+	if (existingTicket) return;
+
 	if (busTimings.length) {
 		return (
 			<Card>
