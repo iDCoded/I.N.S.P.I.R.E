@@ -35,7 +35,7 @@ export const BusScheduleProvider = ({ children }: { children: ReactNode }) => {
 			}
 			localStorage.setItem(
 				"userTicket",
-				JSON.stringify({ ticketId, time: selectedTime })
+				JSON.stringify({ ticketId, timing: selectedTime })
 			);
 			setTicket({ timing: selectedTime, ticketId });
 		} catch (error) {
