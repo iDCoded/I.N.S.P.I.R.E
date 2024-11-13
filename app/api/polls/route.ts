@@ -33,11 +33,13 @@ export async function GET() {
 	await connectToDB();
 
 	try {
-		const polls = (await Poll.find()) as IPoll[] | [];
-		const activePolls = (await Poll.find({ status: "active" }).sort({
-			date: 1,
-		})) as IPoll[] | [];
-
+		const polls = (await Poll.find().lean()) as IPoll[] | [];
+		const activePolls = (await Poll.find({ status: "active" })
+			.sort({
+				date: 1,
+			})
+			.lean()) as IPoll[] | [];
+		activePolls;
 		return NextResponse.json({
 			success: true,
 			polls,
