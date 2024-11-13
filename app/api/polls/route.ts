@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Poll from "@/models/Poll";
 import { connectToDB } from "@/lib/mongodb";
+import { IPoll } from "@/types/global";
 
 export async function POST(req: Request) {
 	try {
@@ -16,7 +17,6 @@ export async function POST(req: Request) {
 		}
 
 		const newPoll = new Poll({ name, timings, date });
-		console.log("New poll created.", newPoll);
 		await newPoll.save();
 
 		return NextResponse.json(
@@ -33,8 +33,10 @@ export async function GET() {
 	await connectToDB();
 
 	try {
-		const polls = await Poll.find();
-		const activePolls = await Poll.find({ status: "active" }).sort({ date: 1 });
+		const polls = (await Poll.find()) as IPoll[] | [];
+		const activePolls = (await Poll.find({ status: "active" }).sort({
+			date: 1,
+		})) as IPoll[] | [];
 
 		return NextResponse.json({
 			success: true,
