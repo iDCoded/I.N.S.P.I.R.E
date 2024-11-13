@@ -71,12 +71,12 @@ export default function Component() {
 						<SidebarFooter className="border-t border-border p-2">
 							<SidebarMenu>
 								<SidebarMenuItem>
-									<SidebarMenuButton className="w-full">
-										<Shield className="h-4 w-4" />
-										<Link href={"/admin"}>
+									<Link href={"/admin"}>
+										<SidebarMenuButton className="w-full">
+											<Shield className="h-4 w-4" />
 											<span>Admin Panel</span>
-										</Link>
-									</SidebarMenuButton>
+										</SidebarMenuButton>
+									</Link>
 								</SidebarMenuItem>
 							</SidebarMenu>
 						</SidebarFooter>
