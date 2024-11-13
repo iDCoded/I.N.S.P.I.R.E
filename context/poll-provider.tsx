@@ -13,8 +13,11 @@ export const BusScheduleProvider = ({ children }: { children: ReactNode }) => {
 
 	const generateTicket = async () => {
 		if (!selectedTime) return;
+
+		const existingTicket = localStorage.getItem("userTicket");
+		if (existingTicket) return;
+
 		const ticketId = Math.random().toString(36).substring(5, 10).toUpperCase();
-		setTicket({ timing: selectedTime, ticketId });
 
 		try {
 			const res = await fetch("/api/polls/ticket", {
@@ -30,9 +33,11 @@ export const BusScheduleProvider = ({ children }: { children: ReactNode }) => {
 				console.error("Failed to generate ticket", error);
 				return;
 			}
-
-			const data = await res.json();
-			console.log("Ticket generated successfully", data.ticket.ticketId);
+			localStorage.setItem(
+				"userTicket",
+				JSON.stringify({ ticketId, time: selectedTime })
+			);
+			setTicket({ timing: selectedTime, ticketId });
 		} catch (error) {
 			console.log("Error generating ticket.", error);
 		}
