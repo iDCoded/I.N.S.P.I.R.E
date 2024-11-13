@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { IPoll } from "@/types/global";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 export default function Vote() {
 	const { selectedTime, setSelectedTime, generateTicket } = useBusSchedule();
@@ -40,44 +41,54 @@ export default function Vote() {
 	useEffect(() => {
 		fetchBusTimings();
 	}, []);
-
-	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Current Schedule</CardTitle>
-				<CardDescription>
-					Today's Date: {format(new Date(), "MMM d, yyyy")}
-				</CardDescription>
-			</CardHeader>
-			<CardContent>
-				<div className="space-y-4">
-					<Label>Select your preferred departure time</Label>
-					<RadioGroup
-						value={selectedTime}
-						onValueChange={setSelectedTime}
-						className="mt-2 grid gap-2">
-						{busTimings.map((timing) => (
-							<Label
-								key={timing}
-								htmlFor={timing}
-								className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted cursor-pointer">
-								<div className="flex items-center gap-2">
-									<RadioGroupItem value={timing} id={timing} />
-									<span className="font-medium">{timing}</span>
-								</div>
-							</Label>
-						))}
-					</RadioGroup>
-				</div>
-			</CardContent>
-			<CardFooter>
-				<Button
-					className="w-full"
-					onClick={generateTicket}
-					disabled={!selectedTime}>
-					Generate Ticket {selectedTime ? `for ${selectedTime}` : null}
-				</Button>
-			</CardFooter>
-		</Card>
-	);
+	if (busTimings.length) {
+		return (
+			<Card>
+				<CardHeader>
+					<CardTitle>Current Schedule</CardTitle>
+					<CardDescription>
+						Today's Date: {format(new Date(), "MMM d, yyyy")}
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<div className="space-y-4">
+						<Label>Select your preferred departure time</Label>
+						<RadioGroup
+							value={selectedTime}
+							onValueChange={setSelectedTime}
+							className="mt-2 grid gap-2">
+							{busTimings.map((timing) => (
+								<Label
+									key={timing}
+									htmlFor={timing}
+									className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted cursor-pointer">
+									<div className="flex items-center gap-2">
+										<RadioGroupItem value={timing} id={timing} />
+										<span className="font-medium">{timing}</span>
+									</div>
+								</Label>
+							))}
+						</RadioGroup>
+					</div>
+				</CardContent>
+				<CardFooter>
+					<Button
+						className="w-full"
+						onClick={generateTicket}
+						disabled={!selectedTime}>
+						Generate Ticket {selectedTime ? `for ${selectedTime}` : null}
+					</Button>
+				</CardFooter>
+			</Card>
+		);
+	} else {
+		return (
+			<Alert>
+				<AlertTitle>No active poll</AlertTitle>
+				<AlertDescription>
+					There are no active polls at the moment.
+				</AlertDescription>
+			</Alert>
+		);
+	}
 }
