@@ -39,7 +39,7 @@ export async function GET() {
 				date: 1,
 			})
 			.lean()) as IPoll[] | [];
-		activePolls;
+
 		return NextResponse.json({
 			success: true,
 			polls,
