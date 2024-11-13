@@ -25,7 +25,7 @@ import { IPoll } from "@/types/global";
 import { Types } from "mongoose";
 
 export default function ExistingPolls() {
-	const [polls, setPolls] = useState<IPoll[]>([]);
+	const [polls, setPolls] = useState<IPoll[] | []>([]);
 	const [loading, setLoading] = useState(true);
 
 	const fetchPolls = async () => {
@@ -60,7 +60,8 @@ export default function ExistingPolls() {
 
 			if (data.success) {
 				setPolls(
-					polls.map((poll) =>
+					// @ts-ignore
+					polls.map((poll: IPoll) =>
 						poll._id === id ? { ...poll, status: updatedStatus } : poll
 					)
 				);
