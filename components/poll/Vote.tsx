@@ -14,17 +14,32 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 import { format } from "date-fns";
-
-// Sample data - replace with actual data source if needed
-const busTimings = [
-	{ id: "1", time: "09:00", votes: 12 },
-	{ id: "2", time: "10:30", votes: 8 },
-	{ id: "3", time: "12:00", votes: 15 },
-	{ id: "4", time: "14:30", votes: 6 },
-];
+import { useEffect, useState } from "react";
+import { IPoll } from "@/types/global";
 
 export default function Vote() {
 	const { selectedTime, setSelectedTime, generateTicket } = useBusSchedule();
+	const [busTimings, setBusTimings] = useState<string[]>([]);
+
+	const fetchBusTimings = async () => {
+		try {
+			const res = await fetch("/api/polls");
+
+			if (!res.ok) throw new Error("Failed to fetch bus timings");
+
+			const data = await res.json();
+
+			const firstActivePoll: IPoll = data.activePolls[0];
+
+			setBusTimings(firstActivePoll.timings);
+		} catch (error) {
+			console.error("Error fetching bus timings", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchBusTimings();
+	}, []);
 
 	return (
 		<Card>
@@ -43,16 +58,13 @@ export default function Vote() {
 						className="mt-2 grid gap-2">
 						{busTimings.map((timing) => (
 							<Label
-								key={timing.id}
-								htmlFor={timing.id}
+								key={timing}
+								htmlFor={timing}
 								className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted cursor-pointer">
 								<div className="flex items-center gap-2">
-									<RadioGroupItem value={timing.time} id={timing.id} />
-									<span className="font-medium">{timing.time}</span>
+									<RadioGroupItem value={timing} id={timing} />
+									<span className="font-medium">{timing}</span>
 								</div>
-								<span className="text-sm text-muted-foreground">
-									{timing.votes} votes
-								</span>
 							</Label>
 						))}
 					</RadioGroup>
