@@ -20,6 +20,7 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 export default function Vote() {
 	const { selectedTime, setSelectedTime, generateTicket } = useBusSchedule();
+	const [showPoll, setShowPoll] = useState(true);
 	const [busTimings, setBusTimings] = useState<string[]>([]);
 	const [existingTicket, setExistingTicket] = useState<{
 		ticketId: string;
@@ -45,8 +46,8 @@ export default function Vote() {
 	useEffect(() => {
 		const storedTicket = localStorage.getItem("userTicket");
 		if (storedTicket) {
-			console.log("Stored Ticket", JSON.parse(storedTicket));
 			setExistingTicket(JSON.parse(storedTicket));
+			setShowPoll(false);
 		} else {
 			fetchBusTimings();
 		}
@@ -54,7 +55,7 @@ export default function Vote() {
 
 	if (existingTicket) return;
 
-	if (busTimings.length) {
+	if (busTimings.length && showPoll) {
 		return (
 			<Card>
 				<CardHeader>
@@ -87,14 +88,17 @@ export default function Vote() {
 				<CardFooter>
 					<Button
 						className="w-full"
-						onClick={generateTicket}
+						onClick={() => {
+							generateTicket();
+							setShowPoll(false);
+						}}
 						disabled={!selectedTime}>
 						Generate Ticket {selectedTime ? `for ${selectedTime}` : null}
 					</Button>
 				</CardFooter>
 			</Card>
 		);
-	} else {
+	} else if (showPoll) {
 		return (
 			<Alert>
 				<AlertTitle>No active poll</AlertTitle>
