@@ -1,7 +1,13 @@
 "use client";
 
 import { BusScheduleContextType, Ticket } from "@/types/global";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+	createContext,
+	ReactNode,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 
 const BusScheduleContext = createContext<BusScheduleContextType | undefined>(
 	undefined
@@ -10,6 +16,15 @@ const BusScheduleContext = createContext<BusScheduleContextType | undefined>(
 export const BusScheduleProvider = ({ children }: { children: ReactNode }) => {
 	const [selectedTime, setSelectedTime] = useState("");
 	const [ticket, setTicket] = useState<Ticket | null>(null);
+
+	useEffect(() => {
+		const existingTicketStr = localStorage.getItem("userTicket");
+
+		if (existingTicketStr) {
+			const existingTicket: Ticket = JSON.parse(existingTicketStr);
+			setTicket(existingTicket);
+		}
+	}, []);
 
 	const generateTicket = async () => {
 		if (!selectedTime) return;
