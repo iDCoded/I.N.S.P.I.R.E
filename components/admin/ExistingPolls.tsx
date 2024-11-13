@@ -21,9 +21,11 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, Trash2, RefreshCcw } from "lucide-react";
 import { format } from "date-fns";
 import { useEffect } from "react";
+import { IPoll } from "@/types/global";
+import { Types } from "mongoose";
 
 export default function ExistingPolls() {
-	const [polls, setPolls] = useState<Poll[]>([]);
+	const [polls, setPolls] = useState<IPoll[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	const fetchPolls = async () => {
@@ -45,7 +47,7 @@ export default function ExistingPolls() {
 		fetchPolls();
 	}, []);
 
-	const togglePollStatus = async (id: number, pollStatus: string) => {
+	const togglePollStatus = async (id: Types.ObjectId, pollStatus: string) => {
 		const updatedStatus = pollStatus === "active" ? "ended" : "active";
 
 		try {
@@ -70,7 +72,7 @@ export default function ExistingPolls() {
 		}
 	};
 
-	const deletePoll = async (id: number) => {
+	const deletePoll = async (id: Types.ObjectId) => {
 		try {
 			const response = await fetch(`/api/polls/${id}`, {
 				method: "DELETE",
@@ -119,7 +121,7 @@ export default function ExistingPolls() {
 								</TableHeader>
 								<TableBody>
 									{polls.map((poll) => (
-										<TableRow key={poll._id}>
+										<TableRow key={poll._id.toString()}>
 											<TableCell>
 												{poll.name}
 												<div className="text-xs text-muted-foreground">
